@@ -12,10 +12,14 @@ class _HomePageState extends State<HomePage> {
   var bill = 0.0;
   var _radioValue = 1;
   var _suggestedAmt = 15;
+  var _height = 30.0;
+  var _width = 50.0;
+  var _color = Colors.green;
+  var _shape = BoxShape.circle;
+
   final formatCurrency = NumberFormat.simpleCurrency();
 
-  // final TextEditingController txtController1 =
-  //     new TextEditingController(text: "0.0");
+
   var controllerBill = new MoneyMaskedTextController(
       precision: 2,
       leftSymbol: '\$ ',
@@ -23,7 +27,11 @@ class _HomePageState extends State<HomePage> {
       thousandSeparator: ',');
 
   void _handleAmtChanged() {
-    setState(() {});
+    setState((){
+        _color = _color == Colors.green ? Colors.lightGreen : Colors.green;
+        _height = _height == 30 ? 40 : 30;
+        _width = _width == 30 ? 40 : 30;
+    });
     bill = controllerBill.numberValue;
     billTotal = (bill * (_suggestedAmt * .01)) + bill;
   }
@@ -46,6 +54,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -65,12 +74,21 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.all(5.0),
                 ),
                 AnimatedContainer(
-                  duration: const Duration(milliseconds: 520),
+                  duration: Duration(seconds: 2),
+                  height: _height,
+                  width: _width,
+                  curve: Curves.bounceInOut,
+                  decoration: BoxDecoration(
+                    shape: _shape,
+                    color: _color,
+
+                  ),
                   child: Image.asset(
                     'assets/dollarsign.png',
-                    height: 50.0,
+                    height: 30.0,
                   ),
                 ),
+
               ],
             ),
             Column(
@@ -145,6 +163,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: EdgeInsets.only(top: 40.0),
             ),
+
             Text(
               '${formatCurrency.format(billTotal)}',
               style: Theme.of(context).textTheme.headline,
